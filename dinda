@@ -1,0 +1,358 @@
+.model small
+.code
+org 100h
+start:
+	jmp mulai
+nama		db 13,10,'Nama Lengkap Anda	: $'
+hp		db 13,10,'No. HP/Telp		: $'
+lanjut	db 13,10,'LANJUT Tekan y untuk lanjut >>>>>>>>>>>>>>> $'
+tampung_nama	db 30,?,30 dup(?)
+tampung_hp		db 13,?,13 dup(?)
+
+a db 01
+b db 02
+c db 03
+d db 04
+e db 05
+f db 06
+g db 07
+h db 08
+i db 09
+j dw 15
+
+daftar	db 13,10,'+--------------------------------------------------------------------+'
+		db 13,10,'|				TERMINAL JOMBOR YOGYAKARTA				 |'
+		db 13,10,'+--------------------------------------------------------------------+'
+		db 13,10,'|			Rute Perjalanan Yogyakarta-Semarang				 |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|No | BUS		|Plat Nomor |  Jam  |   Tanggal  |  Harga Tiket  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|01 | Rosalia indah	|AB 1546 HI | 14.00 | 26/12/2022 |  Rp  350.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|02 | Ramayana	|AB 1524 OK | 10.00 | 26/12/2022 |  Rp  370.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|03 | Nusantara	|AB 1897 MN | 08.00 | 26/12/2022 |  Rp  330.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|04 | Haryanto	|AB 1567 KL | 12.OO | 26/12/2022 |  Rp  400.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+','$'
+
+
+daftar2	db 13,10,'+--------------------------------------------------------------------+'
+		db 13,10,'|				TERMINAL JOMBOR YOGYAKARTA				 |'
+		db 13,10,'+--------------------------------------------------------------------+'
+		db 13,10,'|			Rute Perjalanan Yogyakarta-Surabaya				 |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|No | BUS		|Plat Nomor |  Jam  |   Tanggal  |  Harga Tiket  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|05 | Rosalia Indah	|AB 2378 YT | 14.00 | 26/12/2022 |  Rp  750.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|06 | Ramayana	|AB 2781 LK | 10.00 | 26/12/2022 |  Rp  770.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|07 | Nusantaa	|AB 2187 AG | 08.00 | 26/12/2022 |  Rp  730.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|08 | Haryanto	|AB 2678 OH | 12.OO | 26/12/2022 |  Rp  800.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+','$'
+
+daftar3	db 13,10,'+--------------------------------------------------------------------+'
+		db 13,10,'|				TERMINAL JOMBOR YOGYAKARTA				 |'
+		db 13,10,'+--------------------------------------------------------------------+'
+		db 13,10,'|			Rute Perjalanan Yogyakarta-Madiun				 |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|No | BUS		|Plat Nomor |  Jam  |   Tanggal  |  Harga Tiket  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|09 | Rosalia Inda	|AB 3219 JH | 14.00 | 26/12/2022 |  Rp  550.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|10 | Ramayana	|AB 3789 FG | 10.00 | 26/12/2022 |  Rp  570.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|11 | Nusantara	|AB 3990 BV | 08.00 | 26/12/2022 |  Rp  530.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+'
+		db 13,10,'|12 | Haryanto	|AB 3564 YU | 12.OO | 26/12/2022 |  Rp  600.000  |'
+		db 13,10,'+---+---------------+-----------+-------+------------+---------------+','$'
+
+error			db 13,10,'KODE YANG ANDA MASUKKAN SALAH $'
+pilih_mtr		db 13,10,'Silahkan Masukkan Np/Kode Perjalanan : $'
+succes		db 13,10,'Selamat Anda Berhasil $'
+
+	mulai:
+	mov ah,09h
+	lea dx,nama
+	int 21h
+	mov ah,0ah
+	lea dx,tampung_nama
+	int 21h
+	push dx
+
+	mov ah,09h
+	lea dx,nama
+	int 21h
+	mov ah,0ah
+	lea dx,tampung_nama
+	int 21h
+	push dx
+
+	mov ah,09h
+	lea dx,offset daftar
+	int 21h
+	mov ah,09h
+	lea dx,offset lanjut
+	int 21h
+	mov ah,01h
+	int 21h
+	cmp al,'y'
+	je page2
+	jne error_msg
+
+page2:
+	mov ah,09h
+	lea dx,offset daftar2
+	int 21h
+	mov ah,09h
+	lea dx,offset lanjut
+	int 21h
+	mov ah,01h
+	int 21h
+	cmp al,'y'
+	je page3
+	jne error_msg
+
+page3:
+	mov ah,09h
+	lea dx,offset daftar3
+	int 21h
+	mov ah,09h
+	lea dx,offset lanjut
+	int 21h
+	mov ah,01h
+	int 21h
+	cmp al,'y'
+	jmp proses
+	jne error_msg
+
+proses_msg:
+	mov ah,09h
+	mov dx,offset error
+	int 21h
+	int 20h
+
+proses:
+	mov ah,09h
+	mov dx,offset pilih_mtr
+	int 21h
+
+	mov ah,1
+	int 21h
+	mov bh,al
+	mov ah,1
+	int 21h
+	mov bl,al
+	cmp bh,'0'
+	cmp bl,'1'
+	je hasil1
+
+	cmp bh,'0'
+	cmp bl,'2'
+	je hasil2
+
+	cmp bh,'0'
+	cmp bl,'3'
+	je hasil3
+
+	cmp bh,'0'
+	cmp bl,'4'
+	je hasil4
+
+	cmp bh,'0'
+	cmp bl,'5'
+	je hasil5
+
+	cmp bh,'0'
+	cmp bl,'6'
+	je hasil6
+
+	cmp bh,'0'
+	cmp bl,'7'
+	je hasil7
+
+	cmp bh,'0'
+	cmp bl,'8'
+	je hasil8
+
+	cmp bh,'0'
+	cmp bl,'9'
+	je hasil9
+
+	;cmp bh,'1'
+	;cmp bl,'0'
+	;je hasil10
+
+	;cmp bh,'1'
+	;cmp bl,'1'
+	;je hasil11
+
+	;cmp bh,'1'
+	;cmp bl,'2'
+	;je hasil12
+
+	jne error_msg
+
+;-------------------------------------------------------------------
+
+hasil1:
+	mov ah,09h
+	lea dx,teks1
+	int 21h
+	int 20h
+
+hasil2:
+	mov ah,09h
+	lea dx,teks2
+	int 21h
+	int 20h
+
+hasil3:
+	mov ah,09h
+	lea dx,teks3
+	int 21h
+	int 20h
+
+hasil4:
+	mov ah,09h
+	lea dx,teks4
+	int 21h
+	int 20h
+
+hasil5:
+	mov ah,09h
+	lea dx,teks5
+	int 21h
+	int 20h
+
+hasil6:
+	mov ah,09h
+	lea dx,teks6
+	int 21h
+	int 20h
+
+hasil7:
+	mov ah,09h
+	lea dx,teks7
+	int 21h
+	int 20h
+
+hasil8:
+	mov ah,09h
+	lea dx,teks8
+	int 21h
+	int 20h
+
+hasil9:
+	mov ah,09h
+	lea dx,teks9
+	int 21h
+	int 20h
+
+hasil10:
+	mov ah,09h
+	lea dx,teks10
+	int 21h
+	int 20h
+
+hasil11:
+	mov ah,09h
+	lea dx,teks11
+	int 21h
+	int 20h
+
+hasil12:
+	mov ah,09h
+	lea dx,teks12
+	int 21h
+	int 20h
+
+;-------------------------------------------------------------------
+
+teks1		db 13,10,'Anda memilih Rosalia Indah'
+		db 13,10,'dengan plat nomor AB 1546 HI'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Semarang'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 350.000'
+		db 13,10,'Terima Kasih $'
+
+teks2		db 13,10,'Anda memilih Ramayana'
+		db 13,10,'dengan plat nomor AB 1524 OK'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Semarang'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 370.000'
+		db 13,10,'Terima Kasih $'
+
+teks3		db 13,10,'Anda memilih Nusantara'
+		db 13,10,'dengan plat nomor AB 1897 MN'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Semarang'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 330.000'
+		db 13,10,'Terima Kasih $'
+
+teks4		db 13,10,'Anda memilih Haryanto'
+		db 13,10,'dengan plat nomor AB 1567 KL'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Semarang'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 400.000'
+		db 13,10,'Terima Kasih $'
+
+teks5		db 13,10,'Anda memilih Rosalia Indah'
+		db 13,10,'dengan plat nomor AB 2378 YT'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Surabaya'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 750.000'
+		db 13,10,'Terima Kasih $'
+
+teks6		db 13,10,'Anda memilih Ramayana'
+		db 13,10,'dengan plat nomor AB 2781 LK'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Surabaya'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 770.000'
+		db 13,10,'Terima Kasih $'
+
+teks7		db 13,10,'Anda memilih Nusantara'
+		db 13,10,'dengan plat nomor AB 2187 AG'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Surabaya'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 730.000'
+		db 13,10,'Terima Kasih $'
+
+teks8		db 13,10,'Anda memilih Haryanto'
+		db 13,10,'dengan plat nomor AB 2678 OH'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Surabaya'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 800.000'
+		db 13,10,'Terima Kasih $'
+
+teks9		db 13,10,'Anda memilih Rosalia Indah'
+		db 13,10,'dengan plat nomor AB 3219 JH'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Madiun'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 550.000'
+		db 13,10,'Terima Kasih $'
+
+teks10	db 13,10,'Anda memilih Ramayana'
+		db 13,10,'dengan plat nomor AB 3789 BV'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Madiun'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 570.000'
+		db 13,10,'Terima Kasih $'
+
+teks11	db 13,10,'Anda memilih Nusantara'
+		db 13,10,'dengan plat nomor AB 3990 BV'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Madiun'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 530.000'
+		db 13,10,'Terima Kasih $'
+
+teks12	db 13,10,'Anda memilih Haryanto'
+		db 13,10,'dengan plat nomor AB 3564 yu'
+		db 13,10,'Dengan Rute Perjalanan Yogyakarya-Madiun'
+		db 13,10,'Free Bagasi 0kg'
+		db 13,10,'Total harga yang harus dibayar : Rp 600.000'
+		db 13,10,'Terima Kasih $'
+
+end start
